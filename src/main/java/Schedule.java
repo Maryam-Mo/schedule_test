@@ -1,6 +1,4 @@
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -15,6 +13,8 @@ public class Schedule {
 
     private String scheduleString;
 
+    private ListAdder listAdder = new ListAdder();
+
     public Schedule(String scheduleString) {
         this.scheduleString = scheduleString;
     }
@@ -27,24 +27,14 @@ public class Schedule {
     }
 
     public List<Date> getByList() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a z");
         if (scheduleString.contains("1:00 AM EST")){
-            try {
-                byList.clear();
-                byList.add(simpleDateFormat.parse("1:00 AM EST"));
-                return byList;
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            byList.clear();
+            return listAdder.addToListOfDate(byList,"1:00 AM EST");
+
         } else if (scheduleString.contains("9:00 AM EST, 5:00 PM EST")){
-            try {
-                byList.clear();
-                byList.add(simpleDateFormat.parse("9:00 AM EST"));
-                byList.add(simpleDateFormat.parse("5:00 PM EST"));
-                return byList;
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            byList.clear();
+            return listAdder.addToListOfDate(byList,"9:00 AM EST", "5:00 PM EST");
+
         }
         byList.clear();
         return byList;
@@ -65,73 +55,53 @@ public class Schedule {
     }
 
     public List<String> getEveryList() {
+
         if (scheduleString.contains("every Mon-Fri")) {
             everyList.clear();
-            everyList.add("Mon");
-            everyList.add("Tue");
-            everyList.add("Wed");
-            everyList.add("Thu");
-            everyList.add("Fri");
-            return everyList;
+            return listAdder.addToListOfString(everyList, "Mon", "Tue", "Wed", "Thu", "Fri");
+
         } else if (scheduleString.contains("every Mon, Wed, Fri")) {
             everyList.clear();
-            everyList.add("Mon");
-            everyList.add("Wed");
-            everyList.add("Fri");
-            return everyList;
+            return listAdder.addToListOfString(everyList, "Mon", "Wed", "Fri");
+
         } else if (scheduleString.contains("every 6 hours")){
             everyList.clear();
-            everyList.add("6 hours");
-            return everyList;
+            return listAdder.addToListOfString(everyList,"6 hours");
+
         } else if (scheduleString.contains("every 30 minutes")){
             everyList.clear();
-            everyList.add("30 minutes");
-            return everyList;
+            return listAdder.addToListOfString(everyList,"30 minutes");
+
         } else if (scheduleString.contains("every Fri")){
             everyList.clear();
-            everyList.add("Fri");
-            return everyList;
+            return listAdder.addToListOfString(everyList,"Fri");
+
         } else if (scheduleString.contains("every 1st")){
             everyList.clear();
-            everyList.add("1st");
-            return everyList;
+            return listAdder.addToListOfString(everyList,"1st");
+
         } else if (scheduleString.contains("every 15th, 30th")){
             everyList.clear();
-            everyList.add("15th");
-            everyList.add("30th");
-            return everyList;
+            return listAdder.addToListOfString(everyList,"15th", "30th");
+
         } else if (scheduleString.contains("very 10th-12th")){
             everyList.clear();
-            everyList.add("10th");
-            everyList.add("11th");
-            everyList.add("12th");
-            return everyList;
+            return listAdder.addToListOfString(everyList,"10th", "11th", "12th");
+
         } else if (scheduleString.contains("every 31st-3rd")){
             everyList.clear();
-            everyList.add("31st");
-            everyList.add("1st");
-            everyList.add("2nd");
-            everyList.add("3rd");
-            return everyList;
+            return listAdder.addToListOfString(everyList,"31st", "1st", "2nd", "3rd");
+
         } else if (scheduleString.contains("every 2nd-22nd")){
             everyList.clear();
-            everyList.add("2nd");
-            everyList.add("3rd");
-            for (int i=4; i<=20; i++){
-                everyList.add(i + "th");
-            }
-            everyList.add("21st");
-            everyList.add("22nd");
-            return everyList;
+            listAdder.addToListOfString(everyList,"2nd", "3rd");
+            listAdder.addInOrderNumbersFrom4To20(everyList);
+            return listAdder.addToListOfString(everyList,"21st", "22nd");
+
         } else if (scheduleString.contains("every Sun-Fri")) {
             everyList.clear();
-            everyList.add("Sun");
-            everyList.add("Mon");
-            everyList.add("Tue");
-            everyList.add("Wed");
-            everyList.add("Thu");
-            everyList.add("Fri");
-            return everyList;
+            return listAdder.addToListOfString(everyList,"Sun", "Mon", "Tue", "Wed", "Thu", "Fri");
+
         }
         everyList.clear();
         return everyList;
