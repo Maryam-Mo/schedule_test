@@ -12,6 +12,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 public class ScheduleTest {
+
     @Test
     public void testEveryDay() {
         Schedule schedule = new Schedule("every day");
@@ -112,6 +113,12 @@ public class ScheduleTest {
     @Test
     public void testBy9Am5PmEveryMonToFri() {
         Schedule schedule = new Schedule("by 9:00 AM EST, 5:00 PM EST every Mon-Fri");
+        assertSchedule(schedule, true, false, false, "9:00 AM EST,5:00 PM EST", "Mon,Tue,Wed,Thu,Fri");
+    }
+
+    @Test
+    public void testBy9Am5Pm1amEveryMonToFri() {
+        Schedule schedule = new Schedule("by 1:00 AM EST, 9:00 AM EST, 5:00 PM EST every Mon-Fri");
         assertSchedule(schedule, true, false, false, "9:00 AM EST,5:00 PM EST", "Mon,Tue,Wed,Thu,Fri");
     }
 

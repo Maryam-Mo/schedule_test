@@ -1,4 +1,6 @@
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -40,6 +42,8 @@ public class Schedule {
     private static final String THURSDAY= "Thu";
     private static final String FRIDAY= "Fri";
     private static final String SUNDAY= "Sun";
+    private static final String SATURDAY= "Saturday";
+    private static final String EVERY= "every";
 
     private List<Date> byList = new ArrayList<Date>();
 
@@ -49,13 +53,40 @@ public class Schedule {
 
     private List<String> everyList = new ArrayList<String>();
 
+    private List<String> dayList = Arrays.asList(SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY);
+
     private String scheduleString;
 
     private ListAdder listAdder;
 
     public Schedule(String scheduleString) {
-        this.scheduleString = scheduleString;
         listAdder = new ListAdder();
+        this.scheduleString = scheduleString;
+        String[] split = new String[0];
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a z");
+        split = scheduleString.split(EVERY);
+        if (!split[0].contains(",")){
+            split[0] = split[0].substring(3,split[0].length()-1);
+            byList.clear();
+            try {
+                byList.add(simpleDateFormat.parse(split[0]));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            split = split[0].split(", ");
+            split[0] = split[0].substring(3);
+            int size = (split.length) - 1;
+            split[size] = split[size].substring(0, split[size].length()-1);
+            byList.clear();
+            for (String s: split){
+                try {
+                    byList.add(simpleDateFormat.parse(s));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public boolean hasBy() {
@@ -66,83 +97,25 @@ public class Schedule {
     }
 
     public List<Date> getByList() {
-        if (scheduleString.contains(ONE_AM_TEST)){
-            byList.clear();
-            return listAdder.addToListOfDate(byList,ONE_AM_TEST);
-
-        } else if (scheduleString.contains(NINE_AM_FIVE_PM_EST)){
-            byList.clear();
-            return listAdder.addToListOfDate(byList,NINE_AM_EST, FIVE_PM_EST);
-
-        }
-        byList.clear();
         return byList;
     }
 
     public boolean isEveryDay() {
-        if (scheduleString.contains(EVERY_DAY)) {
-            return true;
-        }
+//        if (scheduleString.contains(EVERY_DAY)) {
+//            return true;
+//        }
         return false;
     }
 
     public boolean isEveryHour() {
-        if (scheduleString.contains(EVERY_HOUR)) {
-            return true;
-        }
+//        if (scheduleString.contains(EVERY_HOUR)) {
+//            return true;
+//        }
         return false;
     }
 
     public List<String> getEveryList() {
 
-        if (scheduleString.contains(EVERY_MONDAY_TO_FRIDAY)) {
-            everyList.clear();
-            return listAdder.addToListOfString(everyList, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY);
-
-        } else if (scheduleString.contains(EVERY_MONDAY_WEDNESDAY_FRIDAY)) {
-            everyList.clear();
-            return listAdder.addToListOfString(everyList, MONDAY, WEDNESDAY, FRIDAY);
-
-        } else if (scheduleString.contains(EVERY_SIX_HOURS)){
-            everyList.clear();
-            return listAdder.addToListOfString(everyList,SIX_HOURS);
-
-        } else if (scheduleString.contains(EVERY_THIRTY_MINUTES)){
-            everyList.clear();
-            return listAdder.addToListOfString(everyList,THIRTY_MINUTES);
-
-        } else if (scheduleString.contains(EVERY_FRIDAY)){
-            everyList.clear();
-            return listAdder.addToListOfString(everyList,FRIDAY);
-
-        } else if (scheduleString.contains(EVERY_FIRST)){
-            everyList.clear();
-            return listAdder.addToListOfString(everyList,FIRST);
-
-        } else if (scheduleString.contains(EVERY_FIFTEEN_THIRTY)){
-            everyList.clear();
-            return listAdder.addToListOfString(everyList,FIFTEEN, THIRTY);
-
-        } else if (scheduleString.contains(EVERY_TEN_TWELVE)){
-            everyList.clear();
-            return listAdder.addToListOfString(everyList,TEN, ELEVEN, TWELVE);
-
-        } else if (scheduleString.contains(EVERY_THIRTYFIRST_TO_THIRD)){
-            everyList.clear();
-            return listAdder.addToListOfString(everyList,THIRTY_FIRST, FIRST, SECOND, THIRD);
-
-        } else if (scheduleString.contains(EVERY_SECOND_TO_TWENTYSECOND)){
-            everyList.clear();
-            listAdder.addToListOfString(everyList,SECOND, THIRD);
-            listAdder.addInOrderNumbersFrom4To20(everyList);
-            return listAdder.addToListOfString(everyList,TWENTY_FIRST, TWENTY_SECOND);
-
-        } else if (scheduleString.contains(EVERY_SUNDAY_TO_FRIDAY)) {
-            everyList.clear();
-            return listAdder.addToListOfString(everyList,SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY);
-
-        }
-        everyList.clear();
-        return everyList;
+        return null;
     }
 }
