@@ -62,6 +62,11 @@ public class Schedule {
     public Schedule(String scheduleString) {
         listAdder = new ListAdder();
         this.scheduleString = scheduleString;
+        addSingleHourToListBy();
+        addMoreThanOneHourToList();
+    }
+
+    private List<Date>  addSingleHourToListBy() {
         String[] split = new String[0];
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a z");
         split = scheduleString.split(EVERY);
@@ -73,7 +78,15 @@ public class Schedule {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-        } else {
+        }
+        return byList;
+    }
+
+    private List<Date>  addMoreThanOneHourToList(){
+        String[] split = new String[0];
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a z");
+        split = scheduleString.split(EVERY);
+        if (split[0].contains(",")){
             split = split[0].split(", ");
             split[0] = split[0].substring(3);
             int size = (split.length) - 1;
@@ -87,6 +100,7 @@ public class Schedule {
                 }
             }
         }
+        return byList;
     }
 
     public boolean hasBy() {
