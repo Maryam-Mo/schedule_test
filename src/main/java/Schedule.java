@@ -52,24 +52,21 @@ public class Schedule {
     private boolean everyHour;
 
     private List<String> everyList = new ArrayList<String>();
-
     private List<String> dayList = Arrays.asList(SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY);
-
     private String scheduleString;
+    private String[] split;
 
-    private ListAdder listAdder;
+    private SimpleDateFormat simpleDateFormat;
 
     public Schedule(String scheduleString) {
-        listAdder = new ListAdder();
         this.scheduleString = scheduleString;
+        split = scheduleString.split(EVERY);
+        simpleDateFormat = new SimpleDateFormat("h:mm a z");
         addSingleHourToListBy();
         addMoreThanOneHourToList();
     }
 
-    private List<Date>  addSingleHourToListBy() {
-        String[] split = new String[0];
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a z");
-        split = scheduleString.split(EVERY);
+    private void addSingleHourToListBy() {
         if (!split[0].contains(",")){
             split[0] = split[0].substring(3,split[0].length()-1);
             byList.clear();
@@ -79,13 +76,9 @@ public class Schedule {
                 e.printStackTrace();
             }
         }
-        return byList;
     }
 
-    private List<Date>  addMoreThanOneHourToList(){
-        String[] split = new String[0];
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a z");
-        split = scheduleString.split(EVERY);
+    private void addMoreThanOneHourToList(){
         if (split[0].contains(",")){
             split = split[0].split(", ");
             split[0] = split[0].substring(3);
@@ -100,7 +93,6 @@ public class Schedule {
                 }
             }
         }
-        return byList;
     }
 
     public boolean hasBy() {
