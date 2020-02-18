@@ -54,7 +54,19 @@ public class Schedule {
     }
 
     private void addMoreThanOneDayToList() {
+        if (split[1].contains(",") || split[1].contains("-")){
+            addDaysSeparatesWithComma();
+        }
+    }
 
+    private void addDaysSeparatesWithComma() {
+        if (split[1].contains(",")) {
+            String[] splitDay = split[1].split(", ");
+            everyList.clear();
+            for (String day: splitDay){
+                everyList.add(day);
+            }
+        }
     }
 
     private void addAnHourToList() {
