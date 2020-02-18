@@ -12,6 +12,7 @@ public class Schedule {
 
     private List<Date> byList = new ArrayList<Date>();
     private List<String> everyList = new ArrayList<String>();
+    private List<String> dayList = Arrays.asList("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
     private boolean everyDay;
     private boolean everyHour;
     private String[] split;
@@ -55,16 +56,37 @@ public class Schedule {
 
     private void addMoreThanOneDayToList() {
         if (split[1].contains(",") || split[1].contains("-")){
-            addDaysSeparatesWithComma();
+            if (split[1].contains(",")) {
+                addDaysSeparatedByComma();
+            } else {
+                addDaysSeparatedByDash();
+            }
         }
     }
 
-    private void addDaysSeparatesWithComma() {
-        if (split[1].contains(",")) {
-            String[] splitDay = split[1].split(", ");
-            everyList.clear();
-            for (String day: splitDay){
-                everyList.add(day);
+    private void addDaysSeparatedByComma() {
+        String[] splitDay = split[1].split(", ");
+        everyList.clear();
+        for (String day: splitDay){
+            everyList.add(day);
+        }
+    }
+
+    private void addDaysSeparatedByDash() {
+        String[] splitDay = split[1].split("-");
+        int firstIndex = dayList.indexOf(splitDay[0]);
+        int lastIndex = dayList.indexOf(splitDay[1]);
+        everyList.clear();
+        if ((lastIndex >= firstIndex)){
+            for (int i=firstIndex; i<=lastIndex; i++){
+                everyList.add(dayList.get(i));
+            }
+        } else {
+            for (int i=firstIndex; i<=(dayList.size()-1); i++){
+                everyList.add(dayList.get(i));
+            }
+            for (int i=0; i<=lastIndex; i++){
+                everyList.add(dayList.get(i));
             }
         }
     }

@@ -19,11 +19,17 @@ public class ScheduleTest {
         assertSchedule(schedule, false, true, false, null, null);
     }
 
-//    @Test
-//    public void testEveryMonToFri() {
-//        Schedule schedule = new Schedule("every Mon-Fri");
-//        assertSchedule(schedule, false, false, false, null, "Mon,Tue,Wed,Thu,Fri");
-//    }
+    @Test
+    public void testEveryMonToFri() {
+        Schedule schedule = new Schedule("every Mon-Fri");
+        assertSchedule(schedule, false, false, false, null, "Mon,Tue,Wed,Thu,Fri");
+    }
+
+    @Test
+    public void testEveryWedToFri() {
+        Schedule schedule = new Schedule("every Fri-Wed");
+        assertSchedule(schedule, false, false, false, null, "Fri,Sat,Sun,Mon,Tue,Wed");
+    }
 
     @Test
     public void testEveryMonWedFri() {
@@ -61,11 +67,11 @@ public class ScheduleTest {
         assertSchedule(schedule, true, false, false, "1:00 AM EST", "Fri");
     }
 
-//    @Test
-//    public void testBy1AmEveryMonToFri() {
-//        Schedule schedule = new Schedule("by 1:00 AM EST every Mon-Fri");
-//        assertSchedule(schedule, true, false, false, "1:00 AM EST", "Mon,Tue,Wed,Thu,Fri");
-//    }
+    @Test
+    public void testBy1AmEveryMonToFri() {
+        Schedule schedule = new Schedule("by 1:00 AM EST every Mon-Fri");
+        assertSchedule(schedule, true, false, false, "1:00 AM EST", "Mon,Tue,Wed,Thu,Fri");
+    }
 
     @Test
     public void testBy1AmEveryMonWedFri() {
@@ -104,23 +110,23 @@ public class ScheduleTest {
 //                "2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th,14th,15th,16th,17th,18th,19th,20th,21st,22nd");
 //    }
 
-//    @Test
-//    public void testBy9Am5PmEverySunToFri() {
-//        Schedule schedule = new Schedule("by 9:00 AM EST, 5:00 PM EST every Sun-Fri");
-//        assertSchedule(schedule, true, false, false, "9:00 AM EST,5:00 PM EST", "Sun,Mon,Tue,Wed,Thu,Fri");
-//    }
+    @Test
+    public void testBy9Am5PmEverySunToFri() {
+        Schedule schedule = new Schedule("by 9:00 AM EST, 5:00 PM EST every Sun-Fri");
+        assertSchedule(schedule, true, false, false, "9:00 AM EST,5:00 PM EST", "Sun,Mon,Tue,Wed,Thu,Fri");
+    }
 
-//    @Test
-//    public void testBy9Am5PmEveryMonToFri() {
-//        Schedule schedule = new Schedule("by 9:00 AM EST, 5:00 PM EST every Mon-Fri");
-//        assertSchedule(schedule, true, false, false, "9:00 AM EST,5:00 PM EST", "Mon,Tue,Wed,Thu,Fri");
-//    }
+    @Test
+    public void testBy9Am5PmEveryMonToFri() {
+        Schedule schedule = new Schedule("by 9:00 AM EST, 5:00 PM EST every Mon-Fri");
+        assertSchedule(schedule, true, false, false, "9:00 AM EST,5:00 PM EST", "Mon,Tue,Wed,Thu,Fri");
+    }
 
-//    @Test
-//    public void testBy9Am5Pm1amEveryMonToFri() {
-//        Schedule schedule = new Schedule("by 1:00 AM EST, 9:00 AM EST, 5:00 PM EST every Mon-Fri");
-//        assertSchedule(schedule, true, false, false, "9:00 AM EST,5:00 PM EST", "Mon,Tue,Wed,Thu,Fri");
-//    }
+    @Test
+    public void testBy9Am5Pm1amEveryMonToFri() {
+        Schedule schedule = new Schedule("by 1:00 AM EST, 9:00 AM EST, 5:00 PM EST every Mon-Fri");
+        assertSchedule(schedule, true, false, false, "1:00 AM EST,9:00 AM EST,5:00 PM EST", "Mon,Tue,Wed,Thu,Fri");
+    }
 
     @Test
     public void testBy9Am5Pm1am() {
