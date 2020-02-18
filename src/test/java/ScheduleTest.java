@@ -91,24 +91,24 @@ public class ScheduleTest {
         assertSchedule(schedule, true, false, false, "1:00 AM EST", "15th,30th");
     }
 
-//    @Test
-//    public void testBy1AmEvery10thTo12th() {
-//        Schedule schedule = new Schedule("by 1:00 AM EST every 10th-12th");
-//        assertSchedule(schedule, true, false, false, "1:00 AM EST", "10th,11th,12th");
-//    }
+    @Test
+    public void testBy1AmEvery10thTo12th() {
+        Schedule schedule = new Schedule("by 1:00 AM EST every 10th-12th");
+        assertSchedule(schedule, true, false, false, "1:00 AM EST", "10th,11th,12th");
+    }
 
-//    @Test
-//    public void testBy1AmEvery31stTo3rd() {
-//        Schedule schedule = new Schedule("by 1:00 AM EST every 31st-3rd");
-//        assertSchedule(schedule, true, false, false, "1:00 AM EST", "31st,1st,2nd,3rd");
-//    }
+    @Test
+    public void testBy1AmEvery31stTo3rd() {
+        Schedule schedule = new Schedule("by 1:00 AM EST every 31st-3rd");
+        assertSchedule(schedule, true, false, false, "1:00 AM EST", "31st,1st,2nd,3rd");
+    }
 
-//    @Test
-//    public void testBy1AmEvery2ndTo22nd() {
-//        Schedule schedule = new Schedule("by 1:00 AM EST every 2nd-22nd");
-//        assertSchedule(schedule, true, false, false, "1:00 AM EST",
-//                "2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th,14th,15th,16th,17th,18th,19th,20th,21st,22nd");
-//    }
+    @Test
+    public void testBy1AmEvery2ndTo22nd() {
+        Schedule schedule = new Schedule("by 1:00 AM EST every 2nd-22nd");
+        assertSchedule(schedule, true, false, false, "1:00 AM EST",
+                "2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th,14th,15th,16th,17th,18th,19th,20th,21st,22nd");
+    }
 
     @Test
     public void testBy9Am5PmEverySunToFri() {

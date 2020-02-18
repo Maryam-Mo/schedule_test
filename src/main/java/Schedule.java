@@ -13,6 +13,9 @@ public class Schedule {
     private List<Date> byList = new ArrayList<Date>();
     private List<String> everyList = new ArrayList<String>();
     private List<String> dayList = Arrays.asList("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+    private List<String> dateList = Arrays.asList("1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th",
+            "9th", "10th", "11th", "12th", "13th", "14th", "15th", "16th", "17th", "18th", "19th", "20th",
+            "21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", "31st");
     private boolean everyDay;
     private boolean everyHour;
     private String[] split;
@@ -77,12 +80,22 @@ public class Schedule {
         int firstIndex = dayList.indexOf(splitDay[0]);
         int lastIndex = dayList.indexOf(splitDay[1]);
         everyList.clear();
+        if (firstIndex == -1 && lastIndex== -1){
+            int firstIndexDate = dateList.indexOf(splitDay[0]);
+            int lastIndexDate = dateList.indexOf(splitDay[1]);
+            addDaysToList(firstIndexDate, lastIndexDate, dateList);
+        } else {
+            addDaysToList(firstIndex, lastIndex, dayList);
+        }
+    }
+
+    private void addDaysToList(int firstIndex, int lastIndex, List<String> dayList) {
         if ((lastIndex >= firstIndex)){
             for (int i=firstIndex; i<=lastIndex; i++){
                 everyList.add(dayList.get(i));
             }
         } else {
-            for (int i=firstIndex; i<=(dayList.size()-1); i++){
+            for (int i = firstIndex; i<=(dayList.size()-1); i++){
                 everyList.add(dayList.get(i));
             }
             for (int i=0; i<=lastIndex; i++){
