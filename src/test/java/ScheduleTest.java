@@ -93,14 +93,14 @@ public class ScheduleTest {
 
     @Test
     public void testBy1AmEvery10thTo12th() {
-        Schedule schedule = new Schedule("by 1:00 AM EST every 10th-12th");
-        assertSchedule(schedule, true, false, false, "1:00 AM EST", "10th,11th,12th");
+        Schedule schedule = new Schedule("by 1:00 AM EST every 8th-12th");
+        assertSchedule(schedule, true, false, false, "1:00 AM EST", "8th,9th,10th,11th,12th");
     }
 
     @Test
     public void testBy1AmEvery31stTo3rd() {
-        Schedule schedule = new Schedule("by 1:00 AM EST every 31st-3rd");
-        assertSchedule(schedule, true, false, false, "1:00 AM EST", "31st,1st,2nd,3rd");
+        Schedule schedule = new Schedule("by 1:00 AM EST every 29th-3rd");
+        assertSchedule(schedule, true, false, false, "1:00 AM EST", "29th,30th,31st,1st,2nd,3rd");
     }
 
     @Test

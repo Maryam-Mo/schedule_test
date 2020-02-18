@@ -19,47 +19,61 @@ public class Schedule {
     private boolean everyDay;
     private boolean everyHour;
     private String[] split;
+    private String stringBeforeEvery;
+    private String stringAfterEvery;
     private SimpleDateFormat simpleDateFormat;
     private String scheduleString;
 
     public Schedule(String scheduleString) {
         this.scheduleString = scheduleString;
         split = scheduleString.split(EVERY);
+        stringBeforeEvery = split[0];
+        stringAfterEvery = split[1];
         simpleDateFormat = new SimpleDateFormat("h:mm a z");
-        chooseEveryDay();
-        chooseEveryHour();
-        if (!split[0].isEmpty()) {
-            addAnHourToList();
-            addMoreThanOneHourToList();
-        }
-        if (!(split[1].equalsIgnoreCase(DAY) || split[1].equalsIgnoreCase(HOUR))) {
-            addADayToList();
+        setEveryDay();
+        setEveryHour();
+        setByList();
+        setEveryList();
+    }
+
+    private void setEveryList() {
+        if (!(stringAfterEvery.equalsIgnoreCase(DAY) || stringAfterEvery.equalsIgnoreCase(HOUR))) {
+            addASingleDayToList();
             addMoreThanOneDayToList();
         }
     }
 
-    private void chooseEveryHour() {
-        if (split[1].equalsIgnoreCase(HOUR)) {
+    private void setByList() {
+        if (!stringBeforeEvery.isEmpty()) {
+            addAnHourToList();
+            addMoreThanOneHourToList();
+        }
+    }
+
+    private void setEveryHour() {
+        if (stringAfterEvery.equalsIgnoreCase(HOUR)) {
             everyHour = true;
         }
     }
 
-    private void chooseEveryDay() {
-        if (split[1].equalsIgnoreCase(DAY)) {
+    private void setEveryDay() {
+        if (stringAfterEvery.equalsIgnoreCase(DAY)) {
             everyDay = true;
         }
     }
 
-    private void addADayToList() {
-        if (!split[1].contains(",") && !split[1].contains("-")){
+    private void addASingleDayToList() {
+        if (!stringAfterEvery.contains(",") && !stringAfterEvery.contains("-")){
             everyList.clear();
-            everyList.add(split[1]);
+            everyList.add(stringAfterEvery);
         }
     }
 
     private void addMoreThanOneDayToList() {
-        if (split[1].contains(",") || split[1].contains("-")){
-            if (split[1].contains(",")) {
+        final boolean isSeparatedByComma = stringAfterEvery.contains(",");
+        final boolean isSeperatedByDash = stringAfterEvery.contains("-");
+        if (isSeparatedByComma || isSeperatedByDash){
+            if (isSeparatedByComma) {
                 addDaysSeparatedByComma();
             } else {
                 addDaysSeparatedByDash();
@@ -68,21 +82,24 @@ public class Schedule {
     }
 
     private void addDaysSeparatedByComma() {
-        String[] splitDay = split[1].split(", ");
+        String[] splitDays = stringAfterEvery.split(", ");
         everyList.clear();
-        for (String day: splitDay){
+        for (String day: splitDays){
             everyList.add(day);
         }
     }
 
     private void addDaysSeparatedByDash() {
-        String[] splitDay = split[1].split("-");
-        int firstIndex = dayList.indexOf(splitDay[0]);
-        int lastIndex = dayList.indexOf(splitDay[1]);
+        String[] splitDay = stringAfterEvery.split("-");
+        String dayBeforeDash = splitDay[0];
+        String dayAfterDash = splitDay[1];
+        int firstIndex = dayList.indexOf(dayBeforeDash);
+        int lastIndex = dayList.indexOf(dayAfterDash);
         everyList.clear();
-        if (firstIndex == -1 && lastIndex== -1){
-            int firstIndexDate = dateList.indexOf(splitDay[0]);
-            int lastIndexDate = dateList.indexOf(splitDay[1]);
+        final boolean indexesAreNotExisted = firstIndex == -1 && lastIndex == -1;
+        if (indexesAreNotExisted){
+            int firstIndexDate = dateList.indexOf(dayBeforeDash);
+            int lastIndexDate = dateList.indexOf(dayAfterDash);
             addDaysToList(firstIndexDate, lastIndexDate, dateList);
         } else {
             addDaysToList(firstIndex, lastIndex, dayList);
@@ -105,11 +122,11 @@ public class Schedule {
     }
 
     private void addAnHourToList() {
-        if (!split[0].contains(",")){
-            split[0] = split[0].substring(3,split[0].length()-1);
+        if (!stringBeforeEvery.contains(",")){
+            String stringFrom4thLetterTillTheSecondLast = stringBeforeEvery.substring(3,stringBeforeEvery.length()-1);
             byList.clear();
             try {
-                byList.add(simpleDateFormat.parse(split[0]));
+                byList.add(simpleDateFormat.parse(stringFrom4thLetterTillTheSecondLast));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -117,20 +134,28 @@ public class Schedule {
     }
 
     private void addMoreThanOneHourToList(){
-        if (split[0].contains(",")){
-            String[] splitHour = split[0].split(", ");
-            splitHour[0] = splitHour[0].substring(3);
-            int size = (splitHour.length) - 1;
-            splitHour[size] = splitHour[size].substring(0, splitHour[size].length()-1);
+        if (stringBeforeEvery.contains(",")){
+            String[] splitHour = stringBeforeEvery.split(", ");
+            prepareSplitHour(splitHour);
             byList.clear();
-            for (String s: splitHour){
+            for (String hour: splitHour){
                 try {
-                    byList.add(simpleDateFormat.parse(s));
+                    byList.add(simpleDateFormat.parse(hour));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    private void prepareSplitHour(String[] splitHour) {
+        String firstHour = splitHour[0];
+        String stringFrom4thLetterTillTheEnd = firstHour.substring(3);
+        splitHour[0] = stringFrom4thLetterTillTheEnd;
+        int lastIndex = (splitHour.length) - 1;
+        String lastHour = splitHour[lastIndex];
+        String removeSpacesFromTheLastHour = lastHour.trim();
+        lastHour = removeSpacesFromTheLastHour;
     }
 
     public boolean hasBy() {
